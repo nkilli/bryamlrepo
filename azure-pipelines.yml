@@ -26,7 +26,7 @@ stages:
           publishLocation: 'Container'
 - stage: Deploy 
   jobs:
-    - job: Deploy job 
+    - job: Deploy_job
       pool:
        name: Defualt
       steps:
