@@ -43,7 +43,6 @@ stages:
           terraformVersion: 'latest'
       - task: TerraformTaskV3@3
         displayName: terraform init
-      - task: TerraformTaskV3@3
         inputs:
           provider: 'azurerm'
           command: 'init'
@@ -51,7 +50,8 @@ stages:
           backendAzureRmResourceGroupName: 'pipeline'
           backendAzureRmStorageAccountName: 'pipeline12'
           backendAzureRmContainerName: 'container2'
-          backendAzureRmKey: 'yamlbr.tfstate'
+          backendAzureRmKey: 'yamalbr.tfstate'
+      
       - task: TerraformTaskV3@3
         displayName: terraform plan
         inputs:
