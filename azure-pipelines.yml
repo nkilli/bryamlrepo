@@ -1,0 +1,66 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  name: Defualt
+stages:
+- stage: Build
+  jobs:
+    - job: Build_job
+      steps: 
+      - task: CopyFiles@2
+        displayname: copy files
+        inputs:
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactstagingDirectory)'
+      - task: PublishBuildArtifacts@1
+        displayName: public artifacts
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+- stage: Deploy 
+  jobs:
+    - job: Deploy job 
+      steps:
+      - task: DownloadBuildArtifacts@1
+        displayName: Downdload Artifacts
+        inputs:
+          buildType: 'current'
+          downloadType: 'single'
+          artifactName: 'drop'
+          downloadPath: '$(System.ArtifactsDirectory)'
+      - task: TerraformInstaller@0
+        displayName: terraform installer
+        inputs:
+          terraformVersion: 'latest'
+      - task: TerraformTaskV3@3
+        displayName: terraform init
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          backendServiceArm: 'azure-connection'
+          backendAzureRmResourceGroupName: 'pipeline'
+          backendAzureRmContainerName: 'container2'
+          backendAzureRmKey: 'yamlb.tfstate'
+      - task: TerraformTaskV3@3
+        displayName: terraform plan
+        inputs:
+          provider: 'azurerm'
+          command: 'plan'
+          environmentServiceNameAzureRM: 'azure-connection'
+      - task: TerraformTaskV3@3
+        displayName: terrafom apply
+        inputs:
+          provider: 'azurerm'
+          command: 'apply'
+          environmentServiceNameAzureRM: 'azure-connection'
+
+      
+        
+        
