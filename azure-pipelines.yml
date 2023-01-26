@@ -14,7 +14,7 @@ stages:
        name: Defualt
       steps: 
       - task: CopyFiles@2
-        displayname: copy files
+        displayName: copy files
         inputs:
           Contents: '**'
           TargetFolder: '$(Build.ArtifactstagingDirectory)'
