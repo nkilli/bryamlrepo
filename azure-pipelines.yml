@@ -11,7 +11,7 @@ stages:
   jobs:
     - job: Build_job
       pool:
-       name: Defualt
+       name: Default
       steps: 
       - task: CopyFiles@2
         displayName: copy files
@@ -28,7 +28,7 @@ stages:
   jobs:
     - job: Deploy_job
       pool:
-       name: Defualt
+       name: Default
       steps:
       - task: DownloadBuildArtifacts@1
         displayName: Downdload Artifacts
