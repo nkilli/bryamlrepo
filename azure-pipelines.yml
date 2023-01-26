@@ -6,12 +6,12 @@
 trigger:
 - main
 
-pool:
-  name: Defualt
 stages:
 - stage: Build
   jobs:
     - job: Build_job
+      pool:
+       name: Defualt
       steps: 
       - task: CopyFiles@2
         displayname: copy files
@@ -27,6 +27,8 @@ stages:
 - stage: Deploy 
   jobs:
     - job: Deploy job 
+      pool:
+       name: Defualt
       steps:
       - task: DownloadBuildArtifacts@1
         displayName: Downdload Artifacts
